@@ -24,15 +24,18 @@ screen.onkey(snake.right, "Right")
 food = Food()
 scoreboard = Scoreboard()
 game_is_on = True
-while game_is_on and not snake.wall() and not snake.collision_with_body():
+while game_is_on:
     screen.update()
     time.sleep(0.1)
     snake.move()
+    if snake.wall() or snake.collision_with_body():
+        scoreboard.reset()
+        snake.reset()
+
     if snake.eat(food):
         food.refresh()
         snake.extend()
         scoreboard.update_score()
-scoreboard.game_over()
 
 
 

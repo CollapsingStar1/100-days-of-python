@@ -13,12 +13,13 @@ RIGHT = 0
 class Snake:
     def __init__(self):
         self.segments = []
+        self.obstacles = []
         self.step_count = 0
         self.create_snake()
         self.head = self.segments[0]
 
     def create_snake(self):
-        for i in range(20):
+        for i in range(100):
             shape = "arrow" if i % 2 == 0 else "square"
             new_segment = Turtle(shape)
             new_segment.goto(-20 * i, 0)
@@ -91,5 +92,18 @@ class Snake:
         for seg in self.segments[1:]:
             if self.head.distance(seg) < 10:
                 return True
-        else:
-            return False
+        for seg in self.obstacles[1:]:
+            if self.head.distance(seg) < 10:
+                return True
+        return False
+
+    def reset(self):
+        for seg in self.segments:
+            seg.color("dimgray")
+            seg.penup()
+            seg.shape("square")
+            seg.goto(random.randint(-300, 300), random.randint(-300, 300))
+            self.obstacles.append(seg)
+        self.segments.clear()
+        self.create_snake()
+        self.head = self.segments[0]
